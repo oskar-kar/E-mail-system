@@ -50,6 +50,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\KlasaBD\KlasaBD.csproj">
+      <Project>{75f1658c-c12f-4921-a637-573d163a2092}</Project>
+      <Name>KlasaBD</Name>
+    </ProjectReference>
     <ProjectReference Include="..\KlasaSerwera\KlasaSerwera.csproj">
       <Project>{9969a296-69d4-49f3-b4c1-8d7698d3e477}</Project>
       <Name>KlasaSerwera</Name>

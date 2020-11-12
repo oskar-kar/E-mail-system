@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TCP_Server;
+using KlasaBD;
 
 namespace SerwerTCP
 {
