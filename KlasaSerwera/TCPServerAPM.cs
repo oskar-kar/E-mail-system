@@ -161,7 +161,7 @@ namespace TCP_Server
                                 connected = db.AuthenticateUser(login, password);
                                 if(connected == false)
                                 {
-                                    String mess = "Zostalo podane zze haslo lub/i login.\n";
+                                    String mess = "Zostalo podane zle haslo lub/i login.\n";
                                     byte[] outbuffer = new ASCIIEncoding().GetBytes(mess);
                                     stream.Write(outbuffer, 0, outbuffer.Length);
                                     Array.Clear(buffer, 0, buffer.Length);
