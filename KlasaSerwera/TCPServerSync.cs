@@ -104,7 +104,7 @@ namespace TCP_Server
                                     first = 1;
 								} else 
 								{
-							        string mess = "Utworzono nowego uzytkownika i zalogowano sie. \n" + login + password;
+							        string mess = "Utworzono nowego uzytkownika i zalogowano sie. \n";
                                     byte[] outbuffer = new ASCIIEncoding().GetBytes(mess);
                                     stream.Write(outbuffer, 0, outbuffer.Length);
                                     Array.Clear(buffer, 0, buffer.Length);
@@ -156,7 +156,7 @@ namespace TCP_Server
                                     first = 1;
                                 } else
                                 {
-                                    string mess = "Zalogowano uzytkownika.\n" + login + password;
+                                    string mess = "Zalogowano uzytkownika.\n";
                                     byte[] outbuffer = new ASCIIEncoding().GetBytes(mess);
                                     stream.Write(outbuffer, 0, outbuffer.Length);
                                     Array.Clear(buffer, 0, buffer.Length);
