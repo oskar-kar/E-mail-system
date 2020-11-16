@@ -50,7 +50,7 @@ namespace TCP_Server
             byte[] buffer = new byte[size];
             bool done = false, newUser = false, connected = false, l_once = false, p_once = false;
             string login = "", password = "";
-            while(done == false)
+            while (done == false)
             {
                 if (first == 1)
                 {
@@ -62,10 +62,10 @@ namespace TCP_Server
                 else
                 {
                     stream.Read(buffer, 0, size);
-                    text = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+                    text = Encoding.UTF8.GetString(buffer, 0, buffer.Length).Trim('\0');
                     if (text.Contains("n"))
                     {
-                        while(newUser == false)
+                        while (newUser == false)
                         {
                             if (l_once == false)
                             {
@@ -75,11 +75,11 @@ namespace TCP_Server
                                 stream.Write(outbuffer, 0, outbuffer.Length);
                                 Array.Clear(buffer, 0, buffer.Length);
                                 stream.Read(buffer, 0, size);
-                                text = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+                                text = Encoding.UTF8.GetString(buffer, 0, buffer.Length).Trim('\0');
                                 login = text;
                                 l_once = true;
                             }
-                            else if(l_once == true && p_once == false)
+                            else if (l_once == true && p_once == false)
                             {
                                 stream.Read(buffer, 0, size);
                                 string mess = "Wpisz haslo dla nowego uzytkownika: ";
@@ -87,34 +87,37 @@ namespace TCP_Server
                                 stream.Write(outbuffer, 0, outbuffer.Length);
                                 Array.Clear(buffer, 0, buffer.Length);
                                 stream.Read(buffer, 0, size);
-                                text = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+                                text = Encoding.UTF8.GetString(buffer, 0, buffer.Length).Trim('\0');
                                 password = text;
                                 p_once = true;
-                            } else if (l_once == true && p_once == true)
+                            }
+                            else if (l_once == true && p_once == true)
                             {
                                 newUser = db.AddUser(login, password);
-								if(newUser == false)
-								{
-									string mess = "Nie utworzono nowego uzytkownika.\n";
-									byte[] outbuffer = new ASCIIEncoding().GetBytes(mess);
-									stream.Write(outbuffer, 0, outbuffer.Length);
-									Array.Clear(buffer, 0, buffer.Length);
-									login = "";
-									password = "";
+                                if (newUser == false)
+                                {
+                                    string mess = "Nie utworzono nowego uzytkownika.\n";
+                                    byte[] outbuffer = new ASCIIEncoding().GetBytes(mess);
+                                    stream.Write(outbuffer, 0, outbuffer.Length);
+                                    Array.Clear(buffer, 0, buffer.Length);
+                                    login = "";
+                                    password = "";
                                     first = 1;
-								} else 
-								{
-							        string mess = "Utworzono nowego uzytkownika i zalogowano sie. \n";
+                                }
+                                else
+                                {
+                                    string mess = "Utworzono nowego uzytkownika i zalogowano sie. \n";
                                     byte[] outbuffer = new ASCIIEncoding().GetBytes(mess);
                                     stream.Write(outbuffer, 0, outbuffer.Length);
                                     Array.Clear(buffer, 0, buffer.Length);
                                     done = true;
-								}
+                                }
                                 l_once = false;
                                 p_once = false;
                             }
                         }
-                    } else if (text.Contains("l"))
+                    }
+                    else if (text.Contains("l"))
                     {
                         while (connected == false)
                         {
@@ -126,7 +129,7 @@ namespace TCP_Server
                                 stream.Write(outbuffer, 0, outbuffer.Length);
                                 Array.Clear(buffer, 0, buffer.Length);
                                 stream.Read(buffer, 0, size);
-                                text = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+                                text = Encoding.UTF8.GetString(buffer, 0, buffer.Length).Trim('\0');
                                 login = text;
                                 l_once = true;
                             }
@@ -138,14 +141,14 @@ namespace TCP_Server
                                 stream.Write(outbuffer, 0, outbuffer.Length);
                                 Array.Clear(buffer, 0, buffer.Length);
                                 stream.Read(buffer, 0, size);
-                                text = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+                                text = Encoding.UTF8.GetString(buffer, 0, buffer.Length).Trim('\0');
                                 password = text;
                                 p_once = true;
                             }
                             else if (l_once == true && p_once == true)
                             {
                                 connected = db.AuthenticateUser(login, password);
-                                if(connected == false)
+                                if (connected == false)
                                 {
                                     String mess = "Zostalo podane zle haslo lub/i login.\n";
                                     byte[] outbuffer = new ASCIIEncoding().GetBytes(mess);
@@ -154,7 +157,8 @@ namespace TCP_Server
                                     login = "";
                                     password = "";
                                     first = 1;
-                                } else
+                                }
+                                else
                                 {
                                     string mess = "Zalogowano uzytkownika.\n";
                                     byte[] outbuffer = new ASCIIEncoding().GetBytes(mess);
@@ -170,7 +174,7 @@ namespace TCP_Server
                     else
                     {
                         stream.Read(buffer, 0, size);
-						first = 1;
+                        first = 1;
                         string mess = "Niepoprawna komenda.\n";
                         byte[] outbuffer = new ASCIIEncoding().GetBytes(mess);
                         stream.Write(outbuffer, 0, outbuffer.Length);
@@ -178,10 +182,10 @@ namespace TCP_Server
                     }
                 }
             }
-            while(done == true)
-                {
-                }
-            
+            while (done == true)
+            {
+            }
+
 
             /*while (true)
             {

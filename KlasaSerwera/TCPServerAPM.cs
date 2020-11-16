@@ -76,7 +76,7 @@ namespace TCP_Server
                 else
                 {
                     stream.Read(buffer, 0, size);
-                    text = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+                    text = Encoding.UTF8.GetString(buffer, 0, buffer.Length).Trim('\0');
                     if (text.Contains("n"))
                     {
                         while(newUser == false)
@@ -89,7 +89,7 @@ namespace TCP_Server
                                 stream.Write(outbuffer, 0, outbuffer.Length);
                                 Array.Clear(buffer, 0, buffer.Length);
                                 stream.Read(buffer, 0, size);
-                                text = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+                                text = Encoding.UTF8.GetString(buffer, 0, buffer.Length).Trim('\0');
                                 login = text;
                                 l_once = true;
                             }
@@ -101,7 +101,7 @@ namespace TCP_Server
                                 stream.Write(outbuffer, 0, outbuffer.Length);
                                 Array.Clear(buffer, 0, buffer.Length);
                                 stream.Read(buffer, 0, size);
-                                text = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+                                text = Encoding.UTF8.GetString(buffer, 0, buffer.Length).Trim('\0');
                                 password = text;
                                 p_once = true;
                             } else if (l_once == true && p_once == true)
@@ -140,7 +140,7 @@ namespace TCP_Server
                                 stream.Write(outbuffer, 0, outbuffer.Length);
                                 Array.Clear(buffer, 0, buffer.Length);
                                 stream.Read(buffer, 0, size);
-                                text = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+                                text = Encoding.UTF8.GetString(buffer, 0, buffer.Length).Trim('\0');
                                 login = text;
                                 l_once = true;
                             }
@@ -152,7 +152,7 @@ namespace TCP_Server
                                 stream.Write(outbuffer, 0, outbuffer.Length);
                                 Array.Clear(buffer, 0, buffer.Length);
                                 stream.Read(buffer, 0, size);
-                                text = Encoding.UTF8.GetString(buffer, 0, buffer.Length);
+                                text = Encoding.UTF8.GetString(buffer, 0, buffer.Length).Trim('\0');
                                 password = text;
                                 p_once = true;
                             }

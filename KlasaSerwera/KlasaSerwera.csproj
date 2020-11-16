@@ -46,5 +46,11 @@
     <Compile Include="TCPServerSync.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\KlasaBD\KlasaBD.csproj">
+      <Project>{75f1658c-c12f-4921-a637-573d163a2092}</Project>
+      <Name>KlasaBD</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
