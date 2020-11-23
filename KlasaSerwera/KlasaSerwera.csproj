@@ -48,6 +48,7 @@
     <Compile Include="TCPServerAPM.cs" />
     <Compile Include="TCPServerSync.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TCPServerTAP.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\KlasaBD\KlasaBD.csproj">

@@ -12,7 +12,7 @@ namespace SerwerTCP
     {
         static void Main(string[] args)
         {
-            ServerTCP<LoginProtocol> server = new ServerTCPAPM<LoginProtocol>();
+            ServerTAP<LoginProtocol> server = new ServerTAP<LoginProtocol>();
 
             server.Start();
         }
