@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TCP_Server;
-using KlasaBD;
+using KlasaSerwera;
 
 namespace SerwerTCP
 {
@@ -12,7 +12,7 @@ namespace SerwerTCP
     {
         static void Main(string[] args)
         {
-            ServerTCP server = new ServerTCPAPM();
+            ServerTCP<LoginProtocol> server = new ServerTCPAPM<LoginProtocol>();
 
             server.Start();
         }

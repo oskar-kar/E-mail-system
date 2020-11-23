@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComunicationProtocol.cs" />
+    <Compile Include="LoginProtocol.cs" />
+    <Compile Include="LoginState.cs" />
     <Compile Include="TCPServer.cs" />
     <Compile Include="TCPServerAPM.cs" />
     <Compile Include="TCPServerSync.cs" />
