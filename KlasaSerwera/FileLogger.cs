@@ -10,11 +10,11 @@ namespace KlasaSerwera
 {
     public class FileLogger : Logger
     {
-        object x = new object();
+        object locker = new object();
 
         public override void AddLog(string s)
         {
-            lock (x)
+            lock (locker)
             {
                 string text = DateTime.Now.ToString() + " -> " + s + "\n";
                 {
