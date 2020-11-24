@@ -10,7 +10,7 @@ namespace KlasaSerwera
 {
     public class FileLogger : Logger
     {
-        object locker = new object();
+        private object locker = new object();
 
         public override void AddLog(string s)
         {
