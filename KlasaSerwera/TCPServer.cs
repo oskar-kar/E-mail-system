@@ -20,9 +20,15 @@ namespace TCP_Server
         protected long outcome;
         protected static int size = 2048;
         protected string text;
-        protected TcpListener listener = new TcpListener(IPAddress.Parse("127.0.0.1"), 4444);
+        protected TcpListener listener;
         protected NetworkStream stream;
+        protected Logger logger = new FileLogger();
 
+        public ServerTCP(string ip, int port, Logger logger = null)
+        {
+            this.listener = new TcpListener(IPAddress.Parse(ip), port);
+            this.logger = logger;
+        }
         /// <summary>
         /// TCP Listener initialization function
         /// </summary>
@@ -40,22 +46,25 @@ namespace TCP_Server
         /// returns factorial (silnia) of positive integer (up to 20)
         /// </summary>
 
-        protected void Loop(NetworkStream stream)
+        protected void Loop(NetworkStream stream, EndPoint endPoint)
         {
             byte[] buffer = new byte[size];
             bool done = false;
             ComunicationProtocol protocol = new T();
             buffer = new ASCIIEncoding().GetBytes(protocol.GetDescription());
             stream.Write(buffer, 0, buffer.Length);
+            if (logger != null) logger.AddLog("Server send mesaage : '" + Encoding.UTF8.GetString(buffer).Trim() + "' to client " + endPoint);
             while (done == false)
             {
                 buffer = new byte[size];
                 stream.Read(buffer, 0, size);
+                if (logger != null) logger.AddLog("Server received mesaage : '" + Encoding.UTF8.GetString(buffer).Trim() + "' from client " + endPoint);
                 string response = protocol.GenerateResponse(Encoding.UTF8.GetString(buffer));
                 if (!response.Equals(""))
                 {
                     buffer = new ASCIIEncoding().GetBytes(response);
                     stream.Write(buffer, 0, buffer.Length);
+                    if (logger != null) logger.AddLog("Server send mesaage : '" + Encoding.UTF8.GetString(buffer).Trim() + "' to client " + endPoint);
                 }
             }
         }

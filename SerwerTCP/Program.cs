@@ -12,8 +12,8 @@ namespace SerwerTCP
     {
         static void Main(string[] args)
         {
-            ServerTAP<LoginProtocol> server = new ServerTAP<LoginProtocol>();
-
+            Logger log = new FileLogger();
+            ServerTAP<LoginProtocol> server = new ServerTAP<LoginProtocol>("127.0.0.1", 4444, log);
             server.Start();
         }
     }

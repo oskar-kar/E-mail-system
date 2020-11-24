@@ -17,7 +17,9 @@ namespace TCP_Server
 
     public class ServerTCPSync<T> : ServerTCP<T> where T : ComunicationProtocol, new()
     {
-
+        public ServerTCPSync(string ip, int port, Logger logger = null) : base(ip, port, logger)
+        {
+        }
         /// <summary>
         /// TCP Listener initialization function
         /// </summary>
@@ -36,7 +38,7 @@ namespace TCP_Server
         {
             TcpClient client = listener.AcceptTcpClient();
             stream = client.GetStream();
-            Loop(stream);
+            Loop(stream, client.Client.RemoteEndPoint);
         }
 
     }

@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileLogger.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="ComunicationProtocol.cs" />
     <Compile Include="LoginProtocol.cs" />
     <Compile Include="LoginState.cs" />

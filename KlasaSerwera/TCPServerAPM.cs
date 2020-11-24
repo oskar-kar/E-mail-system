@@ -17,8 +17,11 @@ namespace TCP_Server
 
     public class ServerTCPAPM<T> : ServerTCP<T> where T : ComunicationProtocol, new()
     {
-        public delegate void TransmissionDelegate(NetworkStream stream);
+        public delegate void TransmissionDelegate(NetworkStream stream, EndPoint endPoint);
 
+        public ServerTCPAPM(string ip, int port, Logger logger = null) : base(ip, port, logger)
+        {
+        }
         /// <summary>
         /// TCP Listener initialization function
         /// </summary>
@@ -39,8 +42,9 @@ namespace TCP_Server
             {
                 TcpClient client = listener.AcceptTcpClient();
                 stream = client.GetStream();
+                EndPoint endPoint = client.Client.RemoteEndPoint;
                 TransmissionDelegate Tdelegate = new TransmissionDelegate(Loop);
-                Tdelegate.BeginInvoke(stream, Callback, client);
+                Tdelegate.BeginInvoke(stream, endPoint, Callback, client);
             }
         }
 

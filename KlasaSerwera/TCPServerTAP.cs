@@ -16,6 +16,9 @@ namespace KlasaSerwera
     {
         public delegate void TransmissionDelegate(NetworkStream stream);
 
+        public ServerTAP(string ip, int port, Logger logger = null) : base (ip, port, logger)
+        {
+        }
         /// <summary>
         /// TCP Listener initialization function
         /// </summary>
@@ -38,7 +41,7 @@ namespace KlasaSerwera
                     (accept_task) =>
                     {
                         TcpClient client = accept_task.Result;
-                        Loop(client.GetStream());
+                        Loop(client.GetStream(), client.Client.RemoteEndPoint);
                     }
                     );   
                 
