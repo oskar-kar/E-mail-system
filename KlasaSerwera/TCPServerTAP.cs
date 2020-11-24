@@ -14,8 +14,6 @@ namespace KlasaSerwera
      /// </summary>
     public class ServerTAP<T> : ServerTCP<T> where T : ComunicationProtocol, new()
     {
-        public delegate void TransmissionDelegate(NetworkStream stream);
-
         public ServerTAP(string ip, int port, Logger logger = null) : base (ip, port, logger)
         {
         }
