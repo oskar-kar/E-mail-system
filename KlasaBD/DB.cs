@@ -47,27 +47,36 @@ namespace KlasaBD
         /// <returns></returns>
         public bool AddUser(string login, string password)
         {
-            var command = connection.CreateCommand();
+            login = login.Trim(' ');
+            password = password.Trim(' ');
+            if (login.Length != 0 && password.Length != 0)
+            {
+                var command = connection.CreateCommand();
 
-            command.CommandText =
-            $@"
+                command.CommandText =
+                $@"
                     SELECT password
                     FROM users
                     WHERE login='{login}'
             ";
-            var reader = command.ExecuteReader();
-            if (reader.Read())
-            {
-                return false;
-            }
-            command = connection.CreateCommand();
-            command.CommandText =
-                $@"
+                var reader = command.ExecuteReader();
+                if (reader.Read())
+                {
+                    return false;
+                }
+                command = connection.CreateCommand();
+                command.CommandText =
+                    $@"
                     INSERT INTO users (login, password)
                     VALUES  ('{login}' , '{password}');
                 ";
-            command.ExecuteNonQuery();
-            return true;
+                command.ExecuteNonQuery();
+                return true;
+            }
+            else
+            {
+                return false;
+            }   
         }
         /// <summary>
         /// Checks if given autentication paramaeters matches parameters in database. 
@@ -77,25 +86,33 @@ namespace KlasaBD
         /// <returns></returns>
         public bool AuthenticateUser(string login, string password)
         {
-            var command = connection.CreateCommand();
+            login = login.Trim(' ');
+            password = password.Trim(' ');
+            if (login.Length != 0 && password.Length != 0)
+            {
+                var command = connection.CreateCommand();
 
-            command.CommandText =
-            $@"
+                command.CommandText =
+                $@"
                     SELECT password
                     FROM users
                     WHERE login='{login}'
-            ";
-            using (var reader = command.ExecuteReader())
-            {
-                if(reader.Read())
+                ";
+                using (var reader = command.ExecuteReader())
                 {
-                    if (password.Equals(reader.GetString(0)))
+                    if (reader.Read())
                     {
-                        return true;
+                        if (password.Equals(reader.GetString(0)))
+                        {
+                            return true;
+                        }
                     }
-                }    
+                }
+                return false;
+            } else
+            {
+                return false;
             }
-            return false;
         }
     }
 }

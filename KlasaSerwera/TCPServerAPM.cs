@@ -57,6 +57,5 @@ namespace TCP_Server
             TcpClient client = (TcpClient)r.AsyncState;
             client.Close();
         }
-
     }
 }

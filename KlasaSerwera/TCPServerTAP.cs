@@ -42,9 +42,7 @@ namespace KlasaSerwera
                         Loop(client.GetStream(), client.Client.RemoteEndPoint);
                     }
                     );   
-                
             }
         }
-
     }
 }

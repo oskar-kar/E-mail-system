@@ -40,6 +40,5 @@ namespace TCP_Server
             stream = client.GetStream();
             Loop(stream, client.Client.RemoteEndPoint);
         }
-
     }
 }

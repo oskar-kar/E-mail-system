@@ -18,7 +18,7 @@ namespace KlasaSerwera
         }
         public override string GenerateResponse(string message)
         {
-            message = message.Trim('\0', '\r', '\n');
+            message = message.Trim('\0', '\r', '\n', ' ');
             if (message.Equals("")) return "";
             switch (state)
             {
@@ -30,7 +30,7 @@ namespace KlasaSerwera
                 case LoginState.WANTS_TO_CREATE_USER:
                     {
                         string[] login_data = message.Split(':');
-                        if (login_data.Length != 2) return "nieprawidlowe dane rejestracyjne\n";
+                        if (login_data.Length != 2 || message.Length < 3) return "nieprawidlowe dane rejestracyjne\n";
                         if (db.AddUser(login_data[0], login_data[1]))
                         {
                             state = LoginState.LOGGED;
@@ -42,11 +42,10 @@ namespace KlasaSerwera
                             return "Nie utworzono nowego uzytkownika, uzytkownik o podanym loginie już istnieje.\n";
                         }
                     }
-                    break;
                 case LoginState.WANTS_TO_LOGIN:
                     {
                         string[] login_data = message.Split(':');
-                        if (login_data.Length != 2) return "nieprawidlowe dane logowania\n";
+                        if (login_data.Length != 2 || message.Length < 3) return "nieprawidlowe dane logowania\n";
                         if (db.AuthenticateUser(login_data[0], login_data[1]))
                         {
                             state = LoginState.LOGGED;
@@ -58,7 +57,6 @@ namespace KlasaSerwera
                             return "Nieprawidlowy login lub haslo.\n";
                         }
                     }
-                    break;
                 case LoginState.LOGGED:
                     {
                         return "juz jestes zalogowany\n";
