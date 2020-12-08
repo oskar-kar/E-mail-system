@@ -35,10 +35,10 @@ namespace KlasaSerwera
         {
             while (true)
             {
-                Task task = listener.AcceptTcpClientAsync().ContinueWith(
-                    (accept_task) =>
+                TcpClient client = listener.AcceptTcpClient();
+                Task.Run(
+                    () =>
                     {
-                        TcpClient client = accept_task.Result;
                         Loop(client.GetStream(), client.Client.RemoteEndPoint);
                     }
                     );   

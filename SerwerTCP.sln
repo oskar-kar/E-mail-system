@@ -9,6 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KlasaSerwera", "KlasaSerwer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KlasaBD", "KlasaBD\KlasaBD.csproj", "{75F1658C-C12F-4921-A637-573D163A2092}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{12D364FB-9C00-4853-A586-B2160BE37C4F}"
+	ProjectSection(SolutionItems) = preProject
+		UnitTest\Tests.cs = UnitTest\Tests.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
