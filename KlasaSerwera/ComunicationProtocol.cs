@@ -8,7 +8,7 @@ namespace KlasaSerwera
 {
     public abstract class ComunicationProtocol
     {
-        public abstract string GenerateResponse(string message);
+        public abstract ProtocolResponse GenerateResponse(string message);
         public abstract string GetDescription();
     }
 }

@@ -53,18 +53,18 @@ namespace TCP_Server
             ComunicationProtocol protocol = new T();
             buffer = new ASCIIEncoding().GetBytes(protocol.GetDescription());
             stream.Write(buffer, 0, buffer.Length);
-            if (logger != null) logger.AddLog("Server send message : '" + Encoding.UTF8.GetString(buffer).Trim() + "' to client " + endPoint);
+            if (logger != null) logger.AddLog(new LogMessage(Encoding.UTF8.GetString(buffer).Trim(), "Server", endPoint));
             while (done == false)
             {
                 buffer = new byte[size];
                 stream.Read(buffer, 0, size);
-                if (logger != null) logger.AddLog("Server received message : '" + Encoding.UTF8.GetString(buffer).Trim() + "' from client " + endPoint);
-                string response = protocol.GenerateResponse(Encoding.UTF8.GetString(buffer));
+                if (logger != null) logger.AddLog(new LogMessage(Encoding.UTF8.GetString(buffer).Trim(), "Client", endPoint));
+                ProtocolResponse response = protocol.GenerateResponse(Encoding.UTF8.GetString(buffer));
                 if (!response.Equals(""))
                 {
-                    buffer = new ASCIIEncoding().GetBytes(response);
+                    buffer = new ASCIIEncoding().GetBytes(response.message);
                     stream.Write(buffer, 0, buffer.Length);
-                    if (logger != null) logger.AddLog("Server send message : '" + Encoding.UTF8.GetString(buffer).Trim() + "' to client " + endPoint);
+                    if (logger != null) logger.AddLog(new LogMessage(response.message, "Server", endPoint, response.login));
                 }
             }
         }

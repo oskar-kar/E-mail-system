@@ -8,6 +8,6 @@ namespace KlasaSerwera
 {
     public abstract class Logger
     {
-        public abstract void AddLog(string s);
+        public abstract void AddLog(LogMessage log);
     }
 }

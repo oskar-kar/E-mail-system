@@ -41,6 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ProtocolResponse.cs" />
+    <Compile Include="LogMessage.cs" />
+    <Compile Include="DBLogger.cs" />
     <Compile Include="FileLogger.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="ComunicationProtocol.cs" />

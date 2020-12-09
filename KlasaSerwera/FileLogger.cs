@@ -12,13 +12,16 @@ namespace KlasaSerwera
     {
         private object locker = new object();
 
-        public override void AddLog(string s)
+        public override void AddLog(LogMessage log)
         {
-            lock (locker)
+            if (!log.message.Trim(' ').Equals(""))
             {
-                string text = DateTime.Now.ToString() + " -> " + s + "\n";
+                string text = DateTime.Now.ToString() + " -> " + log.sender + " " + log.endPoint.ToString() + " send message:'" + log.message + "'\n";
+
+                lock (locker)
                 {
                     File.AppendAllText("log.txt", text);
+
                 }
             }
         }

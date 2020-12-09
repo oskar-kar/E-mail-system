@@ -12,7 +12,7 @@ namespace SerwerTCP
     {
         static void Main(string[] args)
         {
-            Logger log = new FileLogger();
+            Logger log = new DBLogger();
             ServerTAP<LoginProtocol> server = new ServerTAP<LoginProtocol>("127.0.0.1", 4444, log);
             server.Start();
         }

@@ -37,6 +37,20 @@ namespace KlasaBD
                     )
                 ";
                 command.ExecuteNonQuery();
+                command = connection.CreateCommand();
+                command.CommandText =
+                    @"
+                    CREATE TABLE Log
+                    ( 
+                        log_id int primary key,
+                        user_login varchar(32),
+                        sender text,
+                        dt text,
+                        message text,
+                        ip text
+                    )
+                ";
+                command.ExecuteNonQuery();
             }
         }
         /// <summary>
@@ -77,6 +91,17 @@ namespace KlasaBD
             {
                 return false;
             }   
+        }
+        public void AddLog(string login, string sender, string message, string ip)
+        {
+            var command = connection.CreateCommand();
+
+            command.CommandText =
+                    $@"
+                    INSERT INTO Log (user_login, sender, dt, message, ip)
+                    VALUES  ('{login}' , '{sender}', datetime('now', 'localtime'), '{message}', '{ip}');
+                ";
+            command.ExecuteNonQuery();
         }
         /// <summary>
         /// Checks if given autentication paramaeters matches parameters in database. 
