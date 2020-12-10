@@ -30,28 +30,30 @@ namespace KlasaSerwera
                 case LoginState.WANTS_TO_CREATE_USER:
                     {
                         string[] login_data = message.Split(':');
-                        if (login_data.Length != 2 || message.Length < 3) return new ProtocolResponse("nieprawidlowe dane rejestracyjne\n");
+                        if (login_data.Length != 2 || message.Length < 3) return new ProtocolResponse("Nieprawidlowe dane rejestracyjne.\n");
                         if (db.AddUser(login_data[0], login_data[1]))
                         {
                             state = LoginState.LOGGED;
                             this.login = login_data[0];
-                            return new ProtocolResponse("Utworzono nowego uzytkownika i zalogowano sie. \n", login_data[0]);
+                            return new ProtocolResponse("Utworzono nowego uzytkownika i zalogowano sie. \nPo zalogowaniu masz dostepna opcje zmiany hasla. " +
+                                "Jesli chcesz z niej skorzystac wprowadz c.", login_data[0]);
                         }
                         else
                         {
                             state = LoginState.UNVERIFIED;
-                            return new ProtocolResponse("Nie utworzono nowego uzytkownika, uzytkownik o podanym loginie już istnieje.\n");
+                            return new ProtocolResponse("Nie utworzono nowego uzytkownika, uzytkownik o podanym loginie juz istnieje.\n");
                         }
                     }
                 case LoginState.WANTS_TO_LOGIN:
                     {
                         string[] login_data = message.Split(':');
-                        if (login_data.Length != 2 || message.Length < 3) return new ProtocolResponse("nieprawidlowe dane logowania\n");
+                        if (login_data.Length != 2 || message.Length < 3) return new ProtocolResponse("Nieprawidlowe dane logowania.\n");
                         if (db.AuthenticateUser(login_data[0], login_data[1]))
                         {
                             state = LoginState.LOGGED;
                             this.login = login_data[0];
-                            return new ProtocolResponse("Pomyslnie zalogowano.\n", login_data[0]);
+                            return new ProtocolResponse("Pomyslnie zalogowano. \nPo zalogowaniu masz dostepna opcje zmiany hasla. " +
+                                "Jesli chcesz z niej skorzystac wprowadz c.", login_data[0]);
                         }
                         else
                         {
@@ -61,10 +63,26 @@ namespace KlasaSerwera
                     }
                 case LoginState.LOGGED:
                     {
-                        return new ProtocolResponse("juz jestes zalogowany\n",login);
+                        if (message.Contains("l")) return new ProtocolResponse("Juz jestes zalogowany.\n", login);
+                        else if (message.Contains("c")) state = LoginState.WANTS_TO_CHANGE_PASS;
+                        else return new ProtocolResponse("Nieprawidlowowa komenda\n");
+                        return new ProtocolResponse("Wprowadz nowe haslo: \n");
+                    }
+                case LoginState.WANTS_TO_CHANGE_PASS:
+                    {
+                        if (db.ChangePassword(login, message))
+                        {
+                            state = LoginState.LOGGED;
+                            return new ProtocolResponse("Twoje haslo zostalo zmienione.\n", login);
+                        }
+                        else
+                        {
+                            state = LoginState.LOGGED;
+                            return new ProtocolResponse("Twoje haslo nie zostalo zmienione.\n", login);
+                        }
                     }
                 default:
-                    return new ProtocolResponse("cos sie popsulo\n");
+                    return new ProtocolResponse("Cos sie popsulo.\n");
             }
         }
     }

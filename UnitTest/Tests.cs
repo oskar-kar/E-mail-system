@@ -27,17 +27,19 @@ namespace UnitTest
         public void TestGenerateResponse1()
         {
             LoginProtocol loginProtocol = new LoginProtocol();
-            string result = loginProtocol.GenerateResponse("n"), expected = "Podaj login i haslo rozdzielajac je dwukropkiem\n";
-            Assert.AreEqual(expected, result);
+            ProtocolResponse result = loginProtocol.GenerateResponse("n");
+            string expected = "Podaj login i haslo rozdzielajac je dwukropkiem\n", resultStr = result.message;
+            Assert.AreEqual(expected, resultStr);
         }
 
         [TestMethod]
         public void TestGenerateResponse2()
         {
             LoginProtocol loginProtocol = new LoginProtocol();
-            string result = loginProtocol.GenerateResponse("n"), expected = "nieprawidlowe dane rejestracyjne\n";
+            ProtocolResponse result = loginProtocol.GenerateResponse("n");
             result = loginProtocol.GenerateResponse(" : ");
-            Assert.AreEqual(expected, result);
+            string expected = "Nieprawidlowe dane rejestracyjne.\n", resultStr = result.message;
+            Assert.AreEqual(expected, resultStr);
         }
     }
 }

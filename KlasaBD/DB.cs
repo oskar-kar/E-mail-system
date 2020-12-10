@@ -139,5 +139,31 @@ namespace KlasaBD
                 return false;
             }
         }
+        /// <summary>
+        /// Change the value of password to the given user. 
+        /// </summary>
+        /// <param name="login">user login</param>
+        /// <param name="password">user password</param>
+        /// <returns></returns>
+        public bool ChangePassword(string login, string password)
+        {
+            login = login.Trim(' ');
+            password = password.Trim(' ');
+            if (login.Length != 0 && password.Length != 0)
+            {
+                var command = connection.CreateCommand();
+
+                command.CommandText =
+                $@"
+                    UPDATE users SET password='{password}' WHERE login='{login}';
+                ";
+                command.ExecuteNonQuery();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

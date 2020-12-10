@@ -12,6 +12,7 @@ namespace KlasaSerwera
         LOGGED,
         WANTS_TO_LOGIN,
         WANTS_TO_CREATE_USER,
-        INVALID_AUTENTICATION
+        INVALID_AUTENTICATION,
+        WANTS_TO_CHANGE_PASS
     }
 }
