@@ -43,7 +43,7 @@
             this.groupBox1.Controls.Add(this.txtIP);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(81, 30);
+            this.groupBox1.Location = new System.Drawing.Point(50, 27);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(245, 116);
             this.groupBox1.TabIndex = 1;
@@ -57,6 +57,7 @@
             this.txtPort.Size = new System.Drawing.Size(130, 20);
             this.txtPort.TabIndex = 3;
             this.txtPort.Text = "4444";
+            this.txtPort.TextChanged += new System.EventHandler(this.txtPort_TextChanged);
             // 
             // txtIP
             // 
@@ -65,6 +66,7 @@
             this.txtIP.Size = new System.Drawing.Size(130, 20);
             this.txtIP.TabIndex = 2;
             this.txtIP.Text = "127.0.0.1";
+            this.txtIP.TextChanged += new System.EventHandler(this.txtIP_TextChanged);
             // 
             // label2
             // 
@@ -92,22 +94,23 @@
             // 
             this.button1.BackColor = System.Drawing.SystemColors.ControlLightLight;
             this.button1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.25F);
-            this.button1.Location = new System.Drawing.Point(149, 168);
+            this.button1.Location = new System.Drawing.Point(118, 165);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(100, 28);
             this.button1.TabIndex = 2;
             this.button1.Text = "Połącz";
             this.button1.UseVisualStyleBackColor = false;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // EstablishingConnection
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(412, 231);
+            this.ClientSize = new System.Drawing.Size(337, 221);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.groupBox1);
             this.Name = "EstablishingConnection";
-            this.Text = "Form1";
+            this.Text = "TcpCliect";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
