@@ -43,7 +43,6 @@ namespace TCP_Server
 
         /// <summary>
         /// Main TCP Server work cycle function
-        /// returns factorial (silnia) of positive integer (up to 20)
         /// </summary>
 
         protected void Loop(NetworkStream stream, EndPoint endPoint)
