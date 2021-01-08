@@ -51,6 +51,19 @@ namespace KlasaBD
                     )
                 ";
                 command.ExecuteNonQuery();
+
+                command = connection.CreateCommand();
+                command.CommandText =
+                    @"
+                    CREATE TABLE Messages
+                    ( 
+                        loginFrom varchar(32),
+                        loginTo varchar(32),
+                        message varchar(500),
+                        id int primary key
+                    )
+                ";
+                command.ExecuteNonQuery();
             }
         }
         /// <summary>
@@ -165,5 +178,42 @@ namespace KlasaBD
                 return false;
             }
         }
+
+        public void WriteMessage(string loginFrom, string loginTo, string message)
+        {
+            bool executed = false;
+            var command = connection.CreateCommand();
+            command.CommandText =
+                    $@"
+                    INSERT INTO Messages (loginFrom, loginTo, message)
+                    VALUES  ('{loginFrom}' , '{loginTo}', '{message}');
+                ";
+            command.ExecuteNonQuery();
+        }
+
+        public string GetMessages(string login)
+        {
+            string messages = "";
+            var command = connection.CreateCommand();
+
+            command.CommandText =
+               $@"
+                    SELECT loginFrom, message
+                    FROM Messages
+                    WHERE loginTo='{login}'
+                ";
+            using (var reader = command.ExecuteReader())
+            {              
+                while (reader.Read())
+                {
+                    string loginFrom = reader.GetString(0);
+                    messages = messages + "From: " + loginFrom + "\n";
+                    string message = reader.GetString(1);
+                    messages = messages + "Message: " + message + "\n\n";
+                }               
+            }
+            return messages;
+        }
     }
 }
+

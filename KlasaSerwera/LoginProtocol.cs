@@ -11,14 +11,20 @@ namespace KlasaSerwera
     {
         private DB db = new DB();
         private LoginState state = LoginState.UNVERIFIED;
-        private string login = "";
+        private string login = "", writeToLogin = "";
         public override string GetDescription()
         {
             return "Jesli chcesz dodac nowego uzytkownika wprowadz n, jesli chcesz sie zalogowac napisz l\n";
         }
         public override ProtocolResponse GenerateResponse(string message)
         {
-            message = message.Trim('\0', '\r', '\n', ' ');
+            if(state != LoginState.WRITTEN)
+            {
+                message = message.Trim('\0', '\r', '\n', ' ');
+            } else
+            {
+                message = message.Trim('\0', '\r', '\n');
+            }
             if (message.Equals("")) return new ProtocolResponse("");
             switch (state)
             {
@@ -35,8 +41,9 @@ namespace KlasaSerwera
                         {
                             state = LoginState.LOGGED;
                             this.login = login_data[0];
-                            return new ProtocolResponse("Utworzono nowego uzytkownika i zalogowano sie. \nPo zalogowaniu masz dostepna opcje zmiany hasla. " +
-                                "Jesli chcesz z niej skorzystac wprowadz c.", login_data[0]);
+                            return new ProtocolResponse("Utworzono nowego uzytkownika i zalogowano sie. \nPo zalogowaniu masz dostepne nastepujace opcje:\n - zmiany hasla " +
+                                "(jesli chcesz z niej skorzystac wprowadz c),\n - napisania wiadomosci (jesli chcesz z niej skorzystac wprowadz wm)\n" +
+                                " - odebrania wiadomosci (jesli chcesz z niej skorzystac wprowadz gm)", login_data[0]);
                         }
                         else
                         {
@@ -52,8 +59,9 @@ namespace KlasaSerwera
                         {
                             state = LoginState.LOGGED;
                             this.login = login_data[0];
-                            return new ProtocolResponse("Pomyslnie zalogowano. \nPo zalogowaniu masz dostepna opcje zmiany hasla. " +
-                                "Jesli chcesz z niej skorzystac wprowadz c.", login_data[0]);
+                            return new ProtocolResponse("Pomyslnie zalogowano. \nPo zalogowaniu masz dostepne nastepujace opcje:\n - zmiany hasla " +
+                                "(jesli chcesz z niej skorzystac wprowadz c),\n - napisania wiadomosci (jesli chcesz z niej skorzystac wprowadz wm)\n" +
+                                " - odebrania wiadomosci (jesli chcesz z niej skorzystac wprowadz gm)", login_data[0]);
                         }
                         else
                         {
@@ -63,10 +71,39 @@ namespace KlasaSerwera
                     }
                 case LoginState.LOGGED:
                     {
-                        if (message.Contains("l")) return new ProtocolResponse("Juz jestes zalogowany.\n", login);
-                        else if (message.Contains("c")) state = LoginState.WANTS_TO_CHANGE_PASS;
-                        else return new ProtocolResponse("Nieprawidlowowa komenda\n");
-                        return new ProtocolResponse("Wprowadz nowe haslo: \n");
+                        if (message.Contains("l"))
+                        {
+                            return new ProtocolResponse("Juz jestes zalogowany.\n", login);
+                        }
+                        else if (message.Contains("c"))
+                        {
+                            state = LoginState.WANTS_TO_CHANGE_PASS;
+                            return new ProtocolResponse("Wprowadz nowe haslo: \n");
+                        }
+                        else if (message.Contains("wm"))
+                        {
+                            state = LoginState.WANTS_TO_WRITE_MSG;
+                            return new ProtocolResponse("Wpisz login osoby do ktorej chcesz napisac: \n");
+                        }
+                        else if (message.Contains("gm"))
+                        {
+                            //state = LoginState.WANTS_TO_GET_MSG;
+                            string messages = db.GetMessages(login);
+                            if (messages.Length != 0)
+                            {
+                                state = LoginState.LOGGED;
+                                return new ProtocolResponse(messages, login);
+                            }
+                            else
+                            {
+                                state = LoginState.LOGGED;
+                                return new ProtocolResponse("Nie masz wiadomosci.\n", login);
+                            }
+                        }
+                        else
+                        {
+                            return new ProtocolResponse("Nieprawidlowowa komenda\n");
+                        }
                     }
                 case LoginState.WANTS_TO_CHANGE_PASS:
                     {
@@ -80,6 +117,20 @@ namespace KlasaSerwera
                             state = LoginState.LOGGED;
                             return new ProtocolResponse("Twoje haslo nie zostalo zmienione.\n", login);
                         }
+                    }
+                case LoginState.WANTS_TO_WRITE_MSG:
+                    {
+                        writeToLogin = message;
+                        state = LoginState.WRITTEN;
+                        return new ProtocolResponse("Wpisz tresc wiadomosci.\n", login);
+                    }
+                case LoginState.WRITTEN:
+                    {
+                        db.WriteMessage(login, writeToLogin, message);
+                        state = LoginState.LOGGED;
+                        return new ProtocolResponse("Twoja wiadomosc zostala wyslana.\n" + 
+                            "Masz dostepne nastepujace opcje:\n - zmiany hasla (wprowadz c),\n - napisania wiadomosci (wprowadz wm)\n" +
+                                " - odebrania wiadomosci (wprowadz gm)", login);
                     }
                 default:
                     return new ProtocolResponse("Cos sie popsulo.\n");
