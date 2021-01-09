@@ -128,7 +128,7 @@
             this.send_message_button.TabIndex = 6;
             this.send_message_button.Text = "napisz wiadomość";
             this.send_message_button.UseVisualStyleBackColor = false;
-            this.send_message_button.Click += new System.EventHandler(this.send_message_button_Click);
+            this.send_message_button.Click += new System.EventHandler(this.Send_message_button_Click);
             // 
             // download_button
             // 
