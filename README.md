@@ -1,4 +1,4 @@
-# E-mail-system
+# Modular E-mail system
 
 System poczty elektronicznej napisany w języku C# w ramach projektu na studiach.
 
